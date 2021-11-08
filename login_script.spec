@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(['login_script.py'],
-             pathex=['C:\\Users\\SalmanELKABIBI\\OneDrive - MAVISTRO\\Bureau\\Login_script'],
+             pathex=['C:\\Users\\SalmanELKABIBI\\OneDrive - MAVISTRO\\Bureau\\script_login\\Login_script'],
              binaries=[],
              datas=[],
              hiddenimports=[],

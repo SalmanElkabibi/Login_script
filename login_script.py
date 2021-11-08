@@ -21,7 +21,8 @@ def login(email,password):
     # driver.get("https://myip.com/")
     time.sleep(5)
     try:
-        c = driver.find_element_by_id('onetrust-accept-btn-handler')
+        c = WebDriverWait(driver, 5).until(
+                EC.visibility_of_element_located((By.XPATH, "//button[@id='onetrust-accept-btn-handler']")))
         c.click()
     except Exception as e:
         print(e)
@@ -42,13 +43,29 @@ def login(email,password):
     time.sleep(2)
 
     try:
-        n = driver.find_elements_by_class_name("notification-text")
-
+        n = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, "//span[contains(text(),'Profiel')]")))
+        print(n)
         print("[Login Status] : Login Success")
         f = open(".\\Working_accounts.txt", "a+")
         f.write("Email : " + email + " | Password : " + password + "\n\r")
         f.close()
         time.sleep(4)
+
+        try:
+            profile = WebDriverWait(driver, 10).until(
+                EC.visibility_of_element_located((By.XPATH, "//span[contains(text(),'Profiel')]")))
+            print(profile)
+            time.sleep(random.uniform(5, 7))
+            ActionChains(driver).move_to_element(profile).click(profile).perform()
+            time.sleep(random.uniform(1, 2))
+            logout = WebDriverWait(driver, 10).until(
+                EC.visibility_of_element_located((By.XPATH, "//button[@id='logoutButton']")))
+            time.sleep(random.uniform(1, 2))
+            ActionChains(driver).move_to_element(logout).click(logout).perform()
+            print('[Status] : Login & Logout done successfully')
+        except Exception as e:
+            print('[ERROR] :', e)
 
     except Exception as e:
         print(e)
@@ -56,21 +73,6 @@ def login(email,password):
         f = open(".\\Not_working_accounts.txt", "a+")
         f.write("Email : " + email + " | Password : " + password + "\n\r")
         f.close()
-
-    try:
-        profile = WebDriverWait(driver, 30).until(
-            EC.visibility_of_element_located((By.XPATH, "//span[contains(text(),'Profiel')]")))
-        print(profile)
-        time.sleep(random.uniform(1, 2))
-        ActionChains(driver).move_to_element(profile).click(profile).perform()
-        time.sleep(random.uniform(6, 7))
-        logout = WebDriverWait(driver, 30).until(
-            EC.visibility_of_element_located((By.XPATH, "//button[@id='logoutButton']")))
-        time.sleep(random.uniform(1, 2))
-        ActionChains(driver).move_to_element(logout).click(logout).perform()
-        print('[Status] : Login & Logout done successfully')
-    except Exception as e:
-        print('[ERROR] :',e)
 
 
     time.sleep(3)
